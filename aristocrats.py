@@ -52,7 +52,22 @@ def convert_utc_to_timezone(utc_datetime, timezone_str):
 
 def run():
     conn = psycopg2.connect(database="trade", user="trade", password="trade", host="localhost", port=5432)
-    api_key = "x"
+
+    cursor4 = conn.cursor()
+    cursor4.execute("""
+    SELECT api_key
+    FROM secrets
+    WHERE name = %s
+    """, ("api.polygon.io",))
+
+    secret_record = cursor4.fetchone()
+
+    if secret_record is None:
+        logger.error("Could not query secret")
+        return
+
+    api_key = secret_record[0]
+
     urls = []
 
     def submit_requests():
