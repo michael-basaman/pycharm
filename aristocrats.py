@@ -52,7 +52,7 @@ def convert_utc_to_timezone(utc_datetime, timezone_str):
 
 def run():
     conn = psycopg2.connect(database="trade", user="trade", password="trade", host="localhost", port=5432)
-    api_key = "pf1MEQavmoWso5oE2fMxvlywqA7ALIlU"
+    api_key = "x"
     urls = []
 
     def submit_requests():
