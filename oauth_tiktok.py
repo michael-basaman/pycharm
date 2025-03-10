@@ -27,14 +27,28 @@ def get_access_token():
     state = record[0]
     code = record[1]
 
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT client_key, client_secret
+        FROM secrets
+        LIMIT 1
+        """)
+
+    secret_record = cursor.fetchone()
+
+    if secret_record is None:
+        with open('/var/log/oauth_tiktok.log', 'a') as o:
+            o.write(f'ERROR: get_access_token() - could not query secrets\n')
+        return None, None, None
+
     headers = {
         "Content-Type": "application/x-www-form-urlencoded",
         "Cache-Control": "no-cache",
     }
 
     data = {
-        "client_key": "x",
-        "client_secret": "x",
+        "client_key": secret_record[0],
+        "client_secret": secret_record[1],
         "code": code,
         "grant_type": "authorization_code",
         "redirect_uri": "https://www.anticirculatory.com/tiktok/redirect",
@@ -82,6 +96,18 @@ def get_refresh_token(state, refresh_token):
     conn = psycopg2.connect(database="tiktok", user="tiktok", password="tiktok", host="localhost", port=5432)
 
     cursor = conn.cursor()
+    cursor.execute("""
+    SELECT client_key, client_secret
+    FROM secrets
+    LIMIT 1
+    """)
+
+    secret_record = cursor.fetchone()
+
+    if secret_record is None:
+        with open('/var/log/oauth_tiktok.log', 'a') as o:
+            o.write(f'ERROR: get_refresh_token() - could not query secrets\n')
+        return None, None
 
     headers = {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -89,8 +115,8 @@ def get_refresh_token(state, refresh_token):
     }
 
     data = {
-        "client_key": "x",
-        "client_secret": "x",
+        "client_key": secret_record[0],
+        "client_secret": secret_record[1],
         "grant_type": "refresh_token",
         "refresh_token": refresh_token,
     }
