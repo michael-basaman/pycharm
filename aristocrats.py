@@ -20,7 +20,7 @@ def load_aristocrats():
     conn = psycopg2.connect(database="trade", user="trade", password="trade", host="localhost", port=5432)
 
     aristocrats = ["AOS","ABT","ABBV","AFL","APD","ALB","AMCR","ADM","ATO","ADP","BDX","BRO",
-            "BF.B","CAH","CAT","CHRW","CVX","CB","CHD","CINF","CTAS","CLX","KO","CL","ED",
+            "CAH","CAT","CHRW","CVX","CB","CHD","CINF","CTAS","CLX","KO","CL","ED",
             "DOV","ECL","EMR","ERIE","ES","ESS","EXPD","XOM","FDS","FAST","FRT","BEN",
             "GD","GPC","HRL","ITW","IBM","SJM","JNJ","KVUE","KMB","LIN","LOW","MKC",
             "MCD","MDT","NEE","NDSN","NUE","PNR","PEP","PPG","PG","O","ROP","SPGI",
