@@ -159,6 +159,7 @@ def run():
                             WHERE ticker = %s
                             AND price_date = %s
                             """, (stock_open, stock_high, stock_low, stock_close, stock_symbol, stock_from,))
+                            conn.commit()
                             logger.info(f"Updated Equity ({stock_symbol}, {stock_from}, {stock_close})")
                         else:
                             logger.info(f"Unchanged Equity ({stock_symbol}, {stock_from}, {stock_close})")
