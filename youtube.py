@@ -4,7 +4,6 @@ import os
 import subprocess
 
 base_url = "https://www.youtube.com/watch?v="
-video_code = "7zp1TbLFPp8"
 video_code = "YnopHCL1Jk8"
 url = f"{base_url}{video_code}"
 
