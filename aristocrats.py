@@ -180,21 +180,18 @@ def run():
                             logger.info(f"Unchanged Equity ({stock_symbol}, {stock_from}, {stock_close})")
 
     today = datetime.now()
+
     timezone_str = "America/New_York"
     local_datetime = convert_utc_to_timezone(today, timezone_str)
 
-    weekday = local_datetime.weekday()
-    logger.info(f"hour: {local_datetime.hour}")
+    local_datetime = local_datetime - timedelta(hours=1)
 
-    if weekday == 6:
-        local_datetime = local_datetime - timedelta(days=2)
-    elif weekday == 5:
+    local_datetime = local_datetime - timedelta(days=1)
+    weekday = local_datetime.weekday()
+
+    while weekday > 4:
         local_datetime = local_datetime - timedelta(days=1)
-    elif local_datetime.hour < 20:
-        if weekday == 0:
-            local_datetime = local_datetime - timedelta(days=3)
-        else:
-            local_datetime = local_datetime - timedelta(days=1)
+        weekday = local_datetime.weekday()
 
     local_date = local_datetime.strftime("%Y-%m-%d")
     logger.info(f"date: {local_date}")
