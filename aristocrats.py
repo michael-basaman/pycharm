@@ -5,7 +5,6 @@ from datetime import datetime, date, timedelta
 import pytz
 import logging
 
-
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 file_handler = logging.FileHandler("/var/log/python/aristocrats.log")
@@ -14,27 +13,6 @@ file_handler.setLevel(logging.INFO)
 formatter_file = logging.Formatter('%(asctime)s %(levelname)s - %(message)s')
 file_handler.setFormatter(formatter_file)
 logger.addHandler(file_handler)
-
-
-def load_aristocrats():
-    conn = psycopg2.connect(database="trade", user="trade", password="trade", host="localhost", port=5432)
-
-    aristocrats = ["AOS","ABT","ABBV","AFL","APD","ALB","AMCR","ADM","ATO","ADP","BDX","BRO",
-            "CAH","CAT","CHRW","CVX","CB","CHD","CINF","CTAS","CLX","KO","CL","ED",
-            "DOV","ECL","EMR","ERIE","ES","ESS","EXPD","XOM","FDS","FAST","FRT","BEN",
-            "GD","GPC","HRL","ITW","IBM","SJM","JNJ","KVUE","KMB","LIN","LOW","MKC",
-            "MCD","MDT","NEE","NDSN","NUE","PNR","PEP","PPG","PG","O","ROP","SPGI",
-            "SHW","SWK","SYY","TROW","TGT","GWW","WMT","WST"]
-
-    aristocrats = sorted(aristocrats)
-
-    cursor5 = conn.cursor()
-    for aristocrat in aristocrats:
-        cursor5.execute("""
-        INSERT INTO aristocrats (ticker)
-        VALUES (%s)
-        """, (aristocrat,))
-    conn.commit()
 
 
 def convert_utc_to_timezone(utc_datetime, timezone_str):
